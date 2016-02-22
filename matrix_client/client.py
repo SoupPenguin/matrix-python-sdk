@@ -127,6 +127,10 @@ class MatrixClient(object):
             e = sys.exc_info()[0]
             print("Error: unable to start thread. " + str(e))
 
+    def upload(self,content,content_type):
+        response = self.api.media_upload(content,content_type)["content_uri"]
+        return response
+
     def _mkroom(self, room_id):
         self.rooms[room_id] = Room(self, room_id)
         return self.rooms[room_id]
@@ -170,6 +174,9 @@ class Room(object):
 
     def send_emote(self, text):
         return self.client.api.send_emote(self.room_id, text)
+
+    def send_image(self,url,size,mimetype,width=500,height=500):
+        return self.client.api.send_content(self.room_id, url,"image",size,mimetype,width,height)
 
     def add_listener(self, callback):
         self.listeners.append(callback)
@@ -256,4 +263,3 @@ class Room(object):
                         return False
         except MatrixRequestError:
             return False
-
