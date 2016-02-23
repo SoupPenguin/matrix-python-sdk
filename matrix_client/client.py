@@ -178,6 +178,9 @@ class Room(object):
     def send_image(self,url,size,mimetype,width=500,height=500):
         return self.client.api.send_content(self.room_id, url,"image",size,mimetype,width,height)
 
+    def send_video(self,url,size,mimetype):
+        return self.client.api.send_content(self.room_id, url,"video",size,mimetype,640,480)
+
     def add_listener(self, callback):
         self.listeners.append(callback)
 
